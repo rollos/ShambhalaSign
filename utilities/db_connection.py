@@ -31,7 +31,7 @@ if __name__ == '__main__':
          CREATE TABLE IF NOT EXISTS artist (
                                                 name text NOT NULL,
                                                 name_key text PRIMARY KEY,
-                                                takeover_name_key text NOT NULL,
+                                                takeover_name_key text,
                                                 FOREIGN KEY (takeover_name_key) REFERENCES takeover (name_key)
                                             ); 
                                             """
@@ -60,8 +60,15 @@ if __name__ == '__main__':
         );
         """
 
+    sql_drop_artist_table = """
+        DROP TABLE artist;
+    """
+
     conn = create_connection("../database.db")
     if conn is not None:
+
+        create_table(conn, sql_drop_artist_table)
+
         # create artist table
         create_table(conn, sql_create_artist_table)
         # create stage table
