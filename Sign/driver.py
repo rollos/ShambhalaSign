@@ -4,7 +4,6 @@ from pybleno import *
 from bluetooth.command_characteristic import CommandCharacteristic
 import sys
 from command_parser import CommandParser
-import queue
 
 
 
@@ -13,10 +12,13 @@ class Driver:
     bleno = Bleno()
 
 
+
     def __init__(self):
         self.bleno.on('stateChange', self.on_state_change)
         self.bleno.on('advertisingStart', self.on_advertising_start)
         self.bleno.start()
+
+        self.clipQueue.generate_and_run()
 
         print('Hit <ENTER> to disconnect')
 
@@ -30,13 +32,15 @@ class Driver:
 
 
     def write_request_recieved(self, data):
-        text = CommandParser.parse_data(data)
-        print(text)
-        clip = TextClip(text, self.clipQueue)
+        text = CommandParser.parse_data(data, self.clipQueue.clip_factory)
 
-        self.clipQueue.push(clip)
+        if text is not None:
+            print(text)
+            clip = TextClip(text)
 
-        self.clipQueue.pop_first_and_run()
+            self.clipQueue.push(clip)
+
+            #self.clipQueue.pop_first_and_run()
 
     def on_state_change(self, state):
         print('on -> stateChange: ' + state);
