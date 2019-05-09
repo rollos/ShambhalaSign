@@ -5,30 +5,28 @@ class CommandParser:
         decoded = "".join(map(chr, data))
         print("CommandParser: {}".format(decoded))
 
-        data = decoded.split(":")
+        commands = decoded.split(";")
 
-        command = data[0]
-        content = data[1]
+        for command_string in commands:
+            command_data = command_string.split("=")
 
-        print(command)
 
-        if command == "phrase":
-            return content
-        elif command == "artist":
-            state.set_artist(content)
-            return None
+            command = command_data[0]
+            content = command_data[1]
 
-        elif command == "stage":
-            state.set_stage(content)
-            return None
-            # return "Welcome to the {}".format(content)
 
-        elif command == "takeover":
-            state.set_stage(content)
-            return None
-            # return "Welcome to the {} takeover".format(content)
+            if command == "phrase":
+                return content
+            elif command == "artist":
+                state.set_artist(content)
 
-        else:
-            print("unrecognized command")
+            elif command == "stage":
+                state.set_stage(content)
+                # return "Welcome to the {}".format(content)
 
-        return decoded
+            elif command == "takeover":
+                state.set_stage(content)
+                # return "Welcome to the {} takeover".format(content)
+
+            else:
+                print("unrecognized command")

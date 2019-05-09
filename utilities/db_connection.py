@@ -66,9 +66,6 @@ if __name__ == '__main__':
 
     conn = create_connection("../database.db")
     if conn is not None:
-
-        create_table(conn, sql_drop_artist_table)
-
         # create artist table
         create_table(conn, sql_create_artist_table)
         # create stage table
