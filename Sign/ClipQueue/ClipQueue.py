@@ -14,7 +14,7 @@ class ClipQueue:
 
     def pop_first_and_run(self):
         clip = self.clip_queue.get()
-        clip.run(self)
+        clip.run()
 
     def finished(self):
         self.generate_and_run()
@@ -26,8 +26,10 @@ class ClipQueue:
 
 
     def generate_and_run(self):
-        if self.clip_queue.qsize() < 1:
-            clip = self.clip_factory.generate_clip()
-            self.push(clip)
+        for i in range(200):
+            print(i)
+            if self.clip_queue.qsize() < 1:
+                clip = self.clip_factory.generate_clip()
+                self.push(clip)
 
-        self.pop_first_and_run()
+            self.pop_first_and_run()

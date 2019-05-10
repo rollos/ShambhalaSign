@@ -15,10 +15,14 @@ class DatabaseService:
         return conn
 
     def get_single_data(self, query, params):
-        cursor = self.get_connection().cursor()
-        cursor.execute(query, params)
+        conn = self.get_connection()
 
-        return cursor.fetchone()[0]
+        with conn:
+
+            crs = conn.cursor()
+            crs.execute(query, params)
+
+            return crs.fetchone()[0]
 
 
     def artist_from_name_key(self, name_key):

@@ -4,6 +4,7 @@ from pybleno import *
 from bluetooth.command_characteristic import CommandCharacteristic
 import sys
 from command_parser import CommandParser
+import cProfile
 
 
 
@@ -18,17 +19,17 @@ class Driver:
         self.bleno.on('advertisingStart', self.on_advertising_start)
         self.bleno.start()
 
-        self.clipQueue.generate_and_run()
 
-        print('Hit <ENTER> to disconnect')
 
-        input()
-
-        self.bleno.stopAdvertising()
-        self.bleno.disconnect()
-
-        print('terminated.')
-        sys.exit(1)
+        # print('Hit <ENTER> to disconnect')
+        #
+        # input()
+        #
+        # self.bleno.stopAdvertising()
+        # self.bleno.disconnect()
+        #
+        # print('terminated.')
+        # sys.exit(1)
 
 
     def write_request_recieved(self, data):
@@ -66,6 +67,8 @@ class Driver:
 
 if __name__ == "__main__":
     driver = Driver()
+    driver.clipQueue.generate_and_run()
+
 
     # q = ClipQueue()
     #

@@ -11,7 +11,7 @@ class TextClip(BaseClip):
         self.text = text
        # self.parser.add_argument("-t", "--text", help="The text to scroll on the RGB LED panel", default="Hello world!")
 
-    def run(self, delegate):
+    def run(self):
         print("Run")
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
@@ -27,7 +27,6 @@ class TextClip(BaseClip):
             len = graphics.DrawText(offscreen_canvas, font, pos, 10, textColor, my_text)
             pos -= 1
             if (pos + len < 0):
-                delegate.finished()
                 return
 
             time.sleep(0.05)
