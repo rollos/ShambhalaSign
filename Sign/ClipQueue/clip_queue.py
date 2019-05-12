@@ -1,7 +1,4 @@
-from .clips.text_clip import TextClip
 from clip_factory import ClipFactory
-
-
 
 import queue
 

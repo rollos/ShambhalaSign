@@ -1,4 +1,4 @@
-from ClipQueue.ClipQueue import  ClipQueue
+from ClipQueue.clip_queue import  ClipQueue
 from ClipQueue.clips.text_clip import TextClip
 from pybleno import *
 from bluetooth.command_characteristic import CommandCharacteristic
