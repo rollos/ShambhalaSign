@@ -1,11 +1,14 @@
-from ClipQueue.clips.text_clip import TextClip
-from db_service import DatabaseService
+from models.artist import Artist
+from models.stage import Stage
+from models.takeover import Takeover
+from models.generic_clip_factory import GenericClipFactory
 import random
 
 class ClipFactory:
     artist = None
-    stage = "DOWNTOWN"
+    stage = None
     takeover = None
+    generic_clip_factory = GenericClipFactory()
 
 
     def __str__(self):
@@ -24,18 +27,21 @@ class ClipFactory:
 
 
     def set_artist(self, name_key):
-        self.artist = DatabaseService().artist_from_name_key(name_key)
+        self.artist = Artist(name_key)
 
 
     def set_stage(self, id):
-        self.stage = DatabaseService().stage_from_id(id)
+        self.stage = Stage(id)
 
     def set_takeover(self, name_key):
-        self.takeover = DatabaseService().takeover_from_name_key(name_key)
+        self.takeover = Takeover(name_key)
 
     def generate_clip(self):
 
-        clip_types = ["stage"]
+        clip_types = ["generic"]
+
+        if self.stage is not None:
+            clip_types.append("stage")
 
         if self.artist is not None:
             clip_types.append("artist")
@@ -47,12 +53,15 @@ class ClipFactory:
         print("choice: {}".format(choice))
 
         if choice == "stage":
-            return TextClip("Stage: {}".format(self.stage))
+            return self.stage.get_clip()
 
         elif choice == "artist":
-            return TextClip("Artist: {}".format(self.artist))
+            return self.artist.get_clip()
 
         elif choice == "takeover":
-            return TextClip("Welcome to the {} takeover".format(self.takeover))
+            return self.takeover.get_clip()
+
+        elif choice == "generic":
+            return self.generic_clip_factory.get_clip()
 
 
