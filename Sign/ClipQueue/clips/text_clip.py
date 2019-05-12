@@ -18,7 +18,7 @@ class TextClip(BaseClip):
         font = graphics.Font()
 
 
-        font.LoadFont("../fonts/7x13.bdf")
+        font.LoadFont("../fonts/9x15.bdf")
         text_color = ColorFactory.get_color()
         pos = offscreen_canvas.width
         my_text = self.text
