@@ -2,6 +2,7 @@
 
 from .base_clip import BaseClip
 from rgbmatrix import graphics
+from ..color_factory import ColorFactory
 import time
 
 
@@ -18,13 +19,13 @@ class TextClip(BaseClip):
 
 
         font.LoadFont("../fonts/7x13.bdf")
-        textColor = graphics.Color(255, 255, 0)
+        text_color = ColorFactory.get_color()
         pos = offscreen_canvas.width
         my_text = self.text
 
         while True:
             offscreen_canvas.Clear()
-            len = graphics.DrawText(offscreen_canvas, font, pos, 10, textColor, my_text)
+            len = graphics.DrawText(offscreen_canvas, font, pos, 10, text_color, my_text)
             pos -= 1
             if (pos + len < 0):
                 return
