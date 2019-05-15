@@ -60,6 +60,23 @@ if __name__ == '__main__':
         );
         """
 
+
+    sql_create_phrase_table = """
+        CREATE TABLE IF NOT EXISTS phrase (
+                                            phrase text NOT NULL,
+                                            stage_id int,
+                                            artist_name_key text,
+                                            takeover_name_key text,
+                                            any_stage BOOLEAN NOT NULL,
+                                            any_artist BOOLEAN NOT NULL,
+                                            any_takeover BOOLEAN NOT NULL,
+                                            
+                                            FOREIGN KEY (artist_name_key) REFERENCES artist (name_key),
+                                            FOREIGN KEY (stage_id) REFERENCES stage (id),
+                                            FOREIGN KEY (takeover_name_key) REFERENCES takeover (name_key)                                           
+        );
+    """
+
     sql_drop_artist_table = """
         DROP TABLE artist;
     """
@@ -74,5 +91,9 @@ if __name__ == '__main__':
         create_table(conn, sql_create_takeover_table)
         # create artist to stage table
         create_table(conn, sql_create_artist_to_stage_table)
+        # create phrase table
+        create_table(conn, sql_create_phrase_table)
+
+        conn.commit()
     else:
         print("Error! cannot create the database connection.")
