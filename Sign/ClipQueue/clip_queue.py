@@ -16,15 +16,8 @@ class ClipQueue:
     def finished(self):
         self.generate_and_run()
 
-        # if not self.clip_queue.empty():
-        #     self.pop_first_and_run()
-        # else:
-        #     print("EMPTY")
-
-
     def generate_and_run(self):
-        for i in range(200):
-            print(i)
+        while True:
             if self.clip_queue.qsize() < 1:
                 clip = self.clip_factory.generate_clip()
                 self.push(clip)
