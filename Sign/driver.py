@@ -5,6 +5,7 @@ from bluetooth.command_characteristic import CommandCharacteristic
 import sys
 from command_parser import CommandParser
 import cProfile
+from db_service import DatabaseService
 
 
 
@@ -18,6 +19,8 @@ class Driver:
         self.bleno.on('stateChange', self.on_state_change)
         self.bleno.on('advertisingStart', self.on_advertising_start)
         self.bleno.start()
+
+        DatabaseService().select_all_phrases()
 
 
 

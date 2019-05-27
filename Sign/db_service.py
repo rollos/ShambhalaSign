@@ -1,5 +1,5 @@
 import sqlite3
-
+import random
 
 class DatabaseService:
     db_path = "../../database.db"
@@ -23,6 +23,18 @@ class DatabaseService:
             crs.execute(query, params)
 
             return crs.fetchone()[0]
+
+    def get_random_data(self, query, params):
+        conn = self.get_connection()
+
+        with conn:
+
+            crs = conn.cursor()
+            crs.execute(query, params)
+
+            rows = crs.fetchall()
+
+            return random.choice(rows)
 
     def execute_command_vals(self, command, vals):
         """ create a table from the create_table_sql statement
@@ -60,39 +72,35 @@ class DatabaseService:
 
     def get_artist_phrase(self, artist_name_key):
         query = """
-            SELECT * FROM phrase 
+            SELECT phrase FROM phrase 
             WHERE (any_artist = 1 OR artist_name_key = ?)
-            AND id IN (SELECT id FROM table ORDER BY RANDOM() LIMIT 1);
         """
 
-        return self.get_single_data(query, (artist_name_key,))
+        return self.get_random_data(query, (artist_name_key,))[0]
 
     def get_stage_phrase(self, stage_id):
         query = """
-            SELECT * FROM phrase 
+            SELECT phrase FROM phrase 
             WHERE (any_stage = 1 OR stage_id = ?)
-            AND id IN (SELECT id FROM table ORDER BY RANDOM() LIMIT 1);
         """
 
-        return self.get_single_data(query, (stage_id,))
+        return self.get_random_data(query, (stage_id,))[0]
 
     def get_takeover_phrase(self, takeover_name_key):
         query = """
-            SELECT * FROM phrase 
+            SELECT phrase FROM phrase 
             WHERE (any_stage = 1 OR takeover_name_key = ?)
-            AND id IN (SELECT id FROM table ORDER BY RANDOM() LIMIT 1);
         """
 
-        return self.get_single_data(query, (takeover_name_key,))
+        return self.get_random_data(query, (takeover_name_key,))[0]
 
     def get_generic_phrase(self):
         query = """
-                    SELECT * FROM phrase 
+                    SELECT phrase FROM phrase 
                     WHERE generic_phrase = 1
-                    AND id IN (SELECT id FROM table ORDER BY RANDOM() LIMIT 1);
                 """
 
-        return self.get_single_data(query, ())
+        return self.get_random_data(query, ())[0]
 
     def select_all_phrases(self):
         """
