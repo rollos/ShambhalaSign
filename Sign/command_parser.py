@@ -1,3 +1,6 @@
+from db_service import DatabaseService
+
+
 class CommandParser:
 
     @staticmethod
@@ -5,15 +8,19 @@ class CommandParser:
         decoded = "".join(map(chr, data))
         print("CommandParser: {}".format(decoded))
 
+
+        if decoded[:4] == "sync":
+            CommandParser.sync_phrases(decoded[5:])
+            return
+
         commands = decoded.split(";")
 
         for command_string in commands:
-            command_data = command_string.split("=")
 
+            command_data = command_string.split("=")
 
             command = command_data[0]
             content = command_data[1]
-
 
             if command == "phrase":
                 return content
@@ -30,3 +37,29 @@ class CommandParser:
 
             else:
                 print("unrecognized command")
+
+
+    @staticmethod
+    def sync_phrases(sync_data):
+        phrases = filter(None, sync_data.split('|'))
+
+        for phrase_arg_string in phrases:
+
+            args = filter(None, phrase_arg_string.split(";"))
+
+            arg_dict = {}
+
+            for arg in args:
+
+                kv_pair = list(filter(None, arg.split("=", 2)))
+
+                key = kv_pair[0]
+                value = kv_pair[1]
+
+                arg_dict[key] = value
+
+            DatabaseService().insert_phrase(arg_dict)
+
+
+        DatabaseService().select_all_phrases()
+

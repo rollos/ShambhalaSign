@@ -63,6 +63,7 @@ if __name__ == '__main__':
 
     sql_create_phrase_table = """
         CREATE TABLE IF NOT EXISTS phrase (
+                                            id int PRIMARY  KEY,
                                             phrase text NOT NULL,
                                             stage_id int,
                                             artist_name_key text,
@@ -70,6 +71,7 @@ if __name__ == '__main__':
                                             any_stage BOOLEAN NOT NULL,
                                             any_artist BOOLEAN NOT NULL,
                                             any_takeover BOOLEAN NOT NULL,
+                                            generic_phrase BOOLEAN NOT NULL,
                                             
                                             FOREIGN KEY (artist_name_key) REFERENCES artist (name_key),
                                             FOREIGN KEY (stage_id) REFERENCES stage (id),
@@ -81,8 +83,13 @@ if __name__ == '__main__':
         DROP TABLE artist;
     """
 
+    sql_drop_phrase_table = """
+            DROP TABLE phrase;
+        """
+
     conn = create_connection("../database.db")
     if conn is not None:
+        create_table(conn, sql_drop_phrase_table)
         # create artist table
         create_table(conn, sql_create_artist_table)
         # create stage table
