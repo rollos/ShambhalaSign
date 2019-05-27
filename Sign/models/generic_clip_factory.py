@@ -8,9 +8,11 @@ import random
 class GenericClipFactory:
 
     def __init__(self):
-        self.clips = [self.get_time_to_shambs_clip,
-                      self.get_owl_image,
-                      self.get_generic_phrase]
+        self.clips = [
+                    self.get_time_to_shambs_clip,
+                    self.get_owl_image,
+                    self.get_generic_phrase
+                   ]
 
     def get_clip(self):
         return random.choice(self.clips)()
@@ -28,4 +30,4 @@ class GenericClipFactory:
         return TextClip(phrase)
 
     def get_owl_image(self):
-        return ImageClip("/home/pi/ShambhalaSign/images/owl.png", True)
+        return ImageClip("/home/pi/ShambhalaSign/images/owl.png", color_fade=True)
