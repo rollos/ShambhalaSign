@@ -3,6 +3,7 @@
 from .base_clip import BaseClip
 from rgbmatrix import graphics
 from ..color_factory import ColorFactory
+from .constants import FRAME_LENGTH
 import time
 
 
@@ -30,7 +31,7 @@ class TextClip(BaseClip):
             if (pos + len < 0):
                 return
 
-            time.sleep(0.05)
+            time.sleep(FRAME_LENGTH)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
 

@@ -1,5 +1,6 @@
 from ClipQueue.clips.text_clip import TextClip
 from ClipQueue.clips.image_clip import ImageClip
+from ClipQueue.clips.animated_clips.SunsetClip import SunsetClip
 from datetime import *
 from db_service import DatabaseService
 import random
@@ -9,9 +10,10 @@ class GenericClipFactory:
 
     def __init__(self):
         self.clips = [
-                    self.get_time_to_shambs_clip,
-                    self.get_owl_image,
-                    self.get_generic_phrase
+                   self.get_time_to_shambs_clip,
+                   self.get_owl_image,
+                   self.get_generic_phrase,
+                    self.get_sunset_image
                    ]
 
     def get_clip(self):
@@ -31,3 +33,7 @@ class GenericClipFactory:
 
     def get_owl_image(self):
         return ImageClip("/home/pi/ShambhalaSign/images/owl.png", color_fade=True)
+
+
+    def get_sunset_image(self):
+        return SunsetClip()

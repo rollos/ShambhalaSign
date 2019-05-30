@@ -43,3 +43,16 @@ class ColorFactory:
 
         data[(data == orig_color).all(axis=-1)] = replacement_color
         return Image.fromarray(data, mode='RGB')
+
+    # Fade between tuple colors by a percent
+    @staticmethod
+    def fade_between_colors(color1, color2, percent):
+        r_dist = color2[0] - color1[0]
+        g_dist = color2[1] - color1[1]
+        b_dist = color2[2] - color1[2]
+
+        r = color1[0] + (r_dist * percent)
+        g = color1[1] + (g_dist * percent)
+        b = color1[2] + (b_dist * percent)
+
+        return int(r), int(g), int(b)
