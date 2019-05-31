@@ -1,6 +1,7 @@
 from ClipQueue.clips.text_clip import TextClip
 from ClipQueue.clips.image_clip import ImageClip
 from ClipQueue.clips.animated_clips.SunsetClip import SunsetClip
+from ClipQueue.clips.animated_clips.MatrixRainClip import MatrixRainClip
 from datetime import *
 from db_service import DatabaseService
 import random
@@ -13,7 +14,8 @@ class GenericClipFactory:
                    self.get_time_to_shambs_clip,
                    self.get_owl_image,
                    self.get_generic_phrase,
-                    self.get_sunset_image
+                   self.get_sunset_image,
+                   self.get_matrix_rain_clip,
                    ]
 
     def get_clip(self):
@@ -37,3 +39,6 @@ class GenericClipFactory:
 
     def get_sunset_image(self):
         return SunsetClip()
+
+    def get_matrix_rain_clip(self):
+        return MatrixRainClip()
