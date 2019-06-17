@@ -1,11 +1,14 @@
 from PIL import Image
 
 
-file_path = "/home/pi/ShambhalaSign/images/owl.png"
+file_path = "/home/pi/ShambhalaSign/images/gifs/eye.gif"
 
 im = Image.open(file_path)
-
 size = (64, 16)
+
+if im.is_animated():
+
+
 
 bg = Image.new('RGB', size, color='black')
 

@@ -1,3 +1,4 @@
 MAX_CLIP_LENGTH = 120  # SECONDS
 FPS = 24
 FRAME_LENGTH = 1 / FPS  # SECONDS
+MAX_LOOP_COUNT = 5 # Number of loops for a gif
