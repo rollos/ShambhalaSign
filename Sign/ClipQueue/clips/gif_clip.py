@@ -41,3 +41,5 @@ class GifClip(BaseClip):
 
                 time.sleep(FRAME_LENGTH * self.frames_per_frame)
 
+        self.matrix.Clear()
+

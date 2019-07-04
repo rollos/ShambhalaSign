@@ -12,16 +12,15 @@ from db_service import DatabaseService
 class Driver:
     clipQueue = ClipQueue()
     bleno = Bleno()
-
-
+    run = False
 
     def __init__(self):
         self.bleno.on('stateChange', self.on_state_change)
         self.bleno.on('advertisingStart', self.on_advertising_start)
         self.bleno.start()
 
-        DatabaseService().select_all_phrases()
-
+        # DatabaseService().select_all_phrases()
+        #
 
 
         # print('Hit <ENTER> to disconnect')
@@ -36,15 +35,35 @@ class Driver:
 
 
     def write_request_recieved(self, data):
-        text = CommandParser.parse_data(data, self.clipQueue.clip_factory)
 
-        if text is not None:
-            print(text)
-            clip = TextClip(text)
+        decoded = CommandParser.decode(data)
 
-            self.clipQueue.push(clip)
+        print("DECODE")
+        print(decoded)
+        if decoded == "POWER-ON":
+            if not self.clipQueue.running:
+                print("starting...")
+                self.run = True
 
-            #self.clipQueue.pop_first_and_run()
+            return
+
+        elif decoded == "POWER-OFF":
+            power_off()
+            return
+
+
+        if self.clipQueue.running:
+            text = CommandParser.parse_data(decoded, self.clipQueue.clip_factory)
+
+            if text is not None:
+                print(text)
+                clip = TextClip(text)
+
+                self.clipQueue.push(clip)
+
+                #self.clipQueue.pop_first_and_run()
+
+
 
     def on_state_change(self, state):
         print('on -> stateChange: ' + state);
@@ -68,36 +87,18 @@ class Driver:
             ])
 
 
+def power_off():
+    command = "/usr/bin/sudo /sbin/shutdown -r now"
+    import subprocess
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    print(output)
+
 if __name__ == "__main__":
     driver = Driver()
-    driver.clipQueue.generate_and_run()
 
-
-    # q = ClipQueue()
-    #
-    # print("test")
-    # test1 = TextClip("First Clip", q)
-    # test2 = TextClip("Second Clip", q)
-    #
-    # test3 = TextClip("DAD?", q)
-    #
-    # #test.run()
-    #
-    #
-    #
-    # q.push(test1)
-    # q.push(test2)
-    # q.push(test3)
-    #
-    # q.pop_first_and_run()
-
-
-
-
-
-    # clip_queue = ClipQueue()
-    #
-    # clip_queue.push(TextClip(clip_queue, "FIRST CLIP"))
-    # clip_queue.push(TextClip(clip_queue, "SECOND CLIP"))
-    #
-    # clip_queue.pop_first_and_run()
+    while True:
+        if driver.run:
+            driver.clipQueue.running = True
+            driver.clipQueue.generate_and_run()
+            driver.run = False

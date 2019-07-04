@@ -5,6 +5,7 @@ import queue
 class ClipQueue:
     clip_queue = queue.Queue()
     clip_factory = ClipFactory()
+    running = False
 
     def push(self, clip):
         self.clip_queue.put(clip)

@@ -4,16 +4,20 @@ from db_service import DatabaseService
 class CommandParser:
 
     @staticmethod
+    def decode(data):
+        return "".join(map(chr, data))
+
+    @staticmethod
     def parse_data(data, state):
-        decoded = "".join(map(chr, data))
-        print("CommandParser: {}".format(decoded))
+
+        print("CommandParser: {}".format(data))
 
 
-        if decoded[:4] == "sync":
-            CommandParser.sync_phrases(decoded[5:])
+        if data[:4] == "sync":
+            CommandParser.sync_phrases(data[5:])
             return
 
-        commands = decoded.split(";")
+        commands = data.split(";")
 
         for command_string in commands:
 
@@ -21,6 +25,7 @@ class CommandParser:
 
             command = command_data[0]
             content = command_data[1]
+
 
             if command == "phrase":
                 return content
