@@ -2,6 +2,11 @@ from ClipQueue.clip_queue import  ClipQueue
 from ClipQueue.clips.text_clip import TextClip
 from pybleno import *
 from bluetooth.command_characteristic import CommandCharacteristic
+from apscheduler.schedulers.background import BackgroundScheduler
+import os
+
+REFRESH_INTERVAL = 10 #Second
+
 import sys
 from command_parser import CommandParser
 import cProfile
@@ -18,6 +23,8 @@ class Driver:
         self.bleno.on('stateChange', self.on_state_change)
         self.bleno.on('advertisingStart', self.on_advertising_start)
         self.bleno.start()
+
+        self.characteristic = CommandCharacteristic('ec0F', self.write_request_recieved)
 
         # DatabaseService().select_all_phrases()
         #
@@ -81,10 +88,17 @@ class Driver:
                 BlenoPrimaryService({
                     'uuid': 'ec00',
                     'characteristics': [
-                        CommandCharacteristic('ec0F', self.write_request_recieved)
+                        self.characteristic
                     ]
                 })
             ])
+
+    def start_poller_refresh(self):
+        scheduler = BackgroundScheduler()
+        scheduler.start()
+        print("START POLLER")
+
+        scheduler.add_job(self.characteristic.send_notification, 'interval', seconds=REFRESH_INTERVAL)
 
 
 def power_off():
@@ -96,9 +110,12 @@ def power_off():
 
 if __name__ == "__main__":
     driver = Driver()
+    os.environ["BLENO_DEVICE_NAME"] = "Woodys Magic Signpost"
 
     while True:
         if driver.run:
             driver.clipQueue.running = True
+            driver.start_poller_refresh()
             driver.clipQueue.generate_and_run()
             driver.run = False
+

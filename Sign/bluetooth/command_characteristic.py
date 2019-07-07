@@ -11,12 +11,12 @@ class CommandCharacteristic(Characteristic):
     def __init__(self, uuid, write_callback):
         Characteristic.__init__(self, {
             'uuid': uuid,
-            'properties': ['read', 'write', 'notify'],
+            'properties': ['read', 'writeWithoutResponse', 'notify'],
             'value': None
         })
 
         self._value = array.array('B', [0] * 0)
-        self._updateValueCallback = write_callback
+        self.write_callback = write_callback
 
     def onReadRequest(self, offset, callback):
         print('EchoCharacteristic - %s - onReadRequest: value = %s' % (self['uuid'], [hex(c) for c in self._value]))
@@ -28,9 +28,8 @@ class CommandCharacteristic(Characteristic):
         #decoded = "".join(map(chr, data))
        # print('EchoCharacteristic - %s - onWriteRequest: value = %s' % (self['uuid'], decoded))
 
-        if self._updateValueCallback:
-            #print('EchoCharacteristic - onWriteRequest: notifying');
-            self._updateValueCallback(self._value)
+        if self.write_callback:
+            self.write_callback(self._value)
 
         callback(Characteristic.RESULT_SUCCESS)
 
@@ -38,6 +37,16 @@ class CommandCharacteristic(Characteristic):
         print('EchoCharacteristic - onSubscribe')
 
         self._updateValueCallback = updateValueCallback
+
+    def send_notification(self, value=None):
+        print("sending_notification")
+        if self._updateValueCallback is not None:
+            if value is None:
+                value = "UPDATE_STATE"
+
+
+            print("Sending Notification: {}".format(value))
+            self._updateValueCallback(bytearray(value, 'utf-8'))
 
     def onUnsubscribe(self):
         print('EchoCharacteristic - onUnsubscribe');
