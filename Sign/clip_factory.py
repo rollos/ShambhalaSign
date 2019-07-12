@@ -31,7 +31,10 @@ class ClipFactory:
 
 
     def set_stage(self, id):
-        self.stage = Stage(id)
+        if id == "none":
+            self.stage = None
+        else:
+            self.stage = Stage(id)
 
     def set_takeover(self, name_key):
         self.takeover = Takeover(name_key)
@@ -49,6 +52,7 @@ class ClipFactory:
         if self.takeover is not None:
             clip_types.append("takeover")
 
+        print(clip_types)
         choice = random.choice(clip_types)
         print("choice: {}".format(choice))
 
@@ -62,6 +66,10 @@ class ClipFactory:
             return self.takeover.get_clip()
 
         elif choice == "generic":
-            return self.generic_clip_factory.get_clip()
+
+            if self.stage is None:
+                return self.generic_clip_factory.get_owl_image()
+            else:
+                return self.generic_clip_factory.get_clip()
 
 
