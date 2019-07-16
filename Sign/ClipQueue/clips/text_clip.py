@@ -19,7 +19,7 @@ class TextClip(BaseClip):
         font = graphics.Font()
 
 
-        font.LoadFont("../fonts/9x15.bdf")
+        font.LoadFont("/home/pi/ShambhalaSign/Sign/fonts/9x15.bdf")
 
         text_color = ColorFactory.get_color()
         pos = offscreen_canvas.width

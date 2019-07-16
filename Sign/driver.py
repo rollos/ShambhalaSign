@@ -45,7 +45,6 @@ class Driver:
 
         decoded = CommandParser.decode(data)
 
-        print("DECODE")
         print(decoded)
         if decoded == "POWER-ON":
             if not self.clipQueue.running:
@@ -55,6 +54,7 @@ class Driver:
             return
 
         elif decoded == "POWER-OFF":
+
             power_off()
             return
 
@@ -111,6 +111,7 @@ def power_off():
 if __name__ == "__main__":
     driver = Driver()
     os.environ["BLENO_DEVICE_NAME"] = "Woodys Magic Signpost"
+    print("STARTING SIGN!")
 
     while True:
         if driver.run:

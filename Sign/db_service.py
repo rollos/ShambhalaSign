@@ -2,7 +2,7 @@ import sqlite3
 import random
 
 class DatabaseService:
-    db_path = "../../database.db"
+    db_path = "/home/pi/ShambhalaSign/database.db"
 
     def get_connection(self):
         """ create a database connection to the SQLite database

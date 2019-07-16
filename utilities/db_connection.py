@@ -87,7 +87,7 @@ if __name__ == '__main__':
             DROP TABLE phrase;
         """
 
-    conn = create_connection("../database.db")
+    conn = create_connection("/home/pi/ShambhalaSign/database.db")
     if conn is not None:
         create_table(conn, sql_drop_phrase_table)
         # create artist table

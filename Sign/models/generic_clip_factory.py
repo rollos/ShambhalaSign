@@ -41,7 +41,19 @@ class GenericClipFactory:
             self.get_galaxy_spiral,
             self.get_moon_eclipse,
             self.get_art_shit,
-            self.get_star_spiral
+            self.get_star_spiral,
+            self.get_hexagon_fractal,
+            self.get_fur_waves,
+            self.get_chicken_run,
+            self.get_soundwaves_one,
+            self.get_mountain_waves,
+            self.get_head_spikes,
+            self.get_running_dude,
+            self.get_color_ripple,
+            self.get_negative_color,
+            self.get_all_seeing,
+            self.get_motion,
+            self.get_television_glitch
                    ]
 
     def get_clip(self):
@@ -143,3 +155,39 @@ class GenericClipFactory:
 
     def get_star_spiral(self):
         return GifClip("/home/pi/ShambhalaSign/images/gifs/star-spiral.gif")
+
+    def get_hexagon_fractal(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/hexagon_fractal.gif")
+
+    def get_fur_waves(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/fur-waves.gif")
+
+    def get_chicken_run(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/chicken-run.gif", offset=24, frames_per_frame=3)
+
+    def get_soundwaves_one(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/soundwaves-1.gif")
+
+    def get_mountain_waves(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/mountain-waves.gif")
+
+    def get_head_spikes(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/head-spikes.gif")
+
+    def get_running_dude(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/running-dude.gif", offset=24, frames_per_frame=3)
+
+    def get_color_ripple(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/color-ripple.gif")
+
+    def get_negative_color(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/negative-color.gif", frames_per_frame=2)
+
+    def get_all_seeing(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/all-seeing.gif")
+
+    def get_motion(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/motion.gif")
+
+    def get_television_glitch(self):
+        return GifClip("/home/pi/ShambhalaSign/images/gifs/television-glitch.gif")

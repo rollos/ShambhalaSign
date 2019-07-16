@@ -29,6 +29,8 @@ class ImageClip(BaseClip):
 
             time.sleep(random.randrange(MAX_CLIP_LENGTH))
 
+        self.matrix.Clear()
+
     def color_fade_run(self):
 
         runtime = random.randrange(MAX_CLIP_LENGTH)

@@ -39,7 +39,6 @@ class CommandCharacteristic(Characteristic):
         self._updateValueCallback = updateValueCallback
 
     def send_notification(self, value=None):
-        print("sending_notification")
         if self._updateValueCallback is not None:
             if value is None:
                 value = "UPDATE_STATE"
