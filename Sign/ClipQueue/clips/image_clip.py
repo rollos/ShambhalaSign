@@ -14,6 +14,7 @@ class ImageClip(BaseClip):
         super(ImageClip, self).__init__(*args, **kwargs)
         self.image = Image.open(image_path)
         self.color_fade = color_fade
+        self.cutoff = False
 
         if color_img:
             self.image = ColorFactory.color_image(self.image)
@@ -33,6 +34,7 @@ class ImageClip(BaseClip):
 
     def color_fade_run(self):
 
+
         runtime = random.randrange(MAX_CLIP_LENGTH)
         frames = int(runtime / FRAME_LENGTH)
 
@@ -42,8 +44,14 @@ class ImageClip(BaseClip):
         fade_speed = random.randrange(25, 200) / 100
 
         for i in range(frames):
+
+            if self.cutoff:
+                break
+
             colored_image = ColorFactory.fade_image(self.image, start_point + (i * fade_speed), saturation)
 
             self.matrix.SetImage(colored_image.convert('RGB'))
 
             time.sleep(FRAME_LENGTH)
+
+        self.matrix.Clear()

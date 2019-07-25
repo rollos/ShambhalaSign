@@ -8,7 +8,9 @@ class CommandParser:
         return "".join(map(chr, data))
 
     @staticmethod
-    def parse_data(data, state):
+    def parse_data(data, clip_queue):
+
+        state = clip_queue.clip_factory
 
         print("CommandParser: {}".format(data))
 
@@ -33,7 +35,11 @@ class CommandParser:
                 state.set_artist(content)
 
             elif command == "stage":
-                state.set_stage(content)
+                new_stage = state.set_stage(content)
+
+
+                if new_stage:
+                    clip_queue.stop_current()
                 # return "Welcome to the {}".format(content)
 
             elif command == "takeover":

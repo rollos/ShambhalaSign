@@ -31,10 +31,19 @@ class ClipFactory:
 
 
     def set_stage(self, id):
-        if id == "none":
-            self.stage = None
+        if self.stage is None:
+            if id == "none":
+                return False
+            else:
+                self.stage = Stage(id)
+                return True
         else:
-            self.stage = Stage(id)
+            if self.stage.id == id:
+                return False
+            else:
+                self.stage = Stage(id)
+                return True
+
 
     def set_takeover(self, name_key):
         self.takeover = Takeover(name_key)

@@ -60,13 +60,14 @@ class Driver:
 
 
         if self.clipQueue.running:
-            text = CommandParser.parse_data(decoded, self.clipQueue.clip_factory)
+            text = CommandParser.parse_data(decoded, self.clipQueue)
 
             if text is not None:
                 print(text)
                 clip = TextClip(text)
 
                 self.clipQueue.push(clip)
+                self.clipQueue.stop_current()
 
                 #self.clipQueue.pop_first_and_run()
 

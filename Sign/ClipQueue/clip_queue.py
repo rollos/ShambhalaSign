@@ -7,12 +7,20 @@ class ClipQueue:
     clip_factory = ClipFactory()
     running = False
 
+    def __init__(self):
+        self.current_clip = None
+
     def push(self, clip):
         self.clip_queue.put(clip)
 
+    def stop_current(self):
+        print("Stopping Current Clip")
+        self.current_clip.cutoff = True
+
+
     def pop_first_and_run(self):
-        clip = self.clip_queue.get()
-        clip.run()
+        self.current_clip = self.clip_queue.get()
+        self.current_clip.run()
 
     def finished(self):
         self.generate_and_run()

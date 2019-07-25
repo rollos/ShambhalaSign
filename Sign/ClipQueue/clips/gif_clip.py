@@ -15,6 +15,7 @@ class GifClip(BaseClip):
         self.image = Image.open(image_path)
         self.offset = offset
         self.frames_per_frame = frames_per_frame
+        self.cutoff = False
 
     def run(self):
         print("Run")
@@ -34,6 +35,10 @@ class GifClip(BaseClip):
 
         for loop in range(loop_count):
             for frame in range(0, self.image.n_frames):
+
+                if self.cutoff:
+                    break
+
                 self.image.seek(frame)
 
 
