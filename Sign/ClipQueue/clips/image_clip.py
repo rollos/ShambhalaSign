@@ -10,11 +10,12 @@ from .constants import MAX_CLIP_LENGTH, FRAME_LENGTH
 
 
 class ImageClip(BaseClip):
-    def __init__(self, image_path, color_img=False, color_fade=False, *args, **kwargs):
+    def __init__(self, image_path, color_img=False, color_fade=False, transparent=False, *args, **kwargs):
         super(ImageClip, self).__init__(*args, **kwargs)
         self.image = Image.open(image_path)
         self.color_fade = color_fade
         self.cutoff = False
+        self.transparent = transparent
 
         if color_img:
             self.image = ColorFactory.color_image(self.image)
@@ -48,7 +49,10 @@ class ImageClip(BaseClip):
             if self.cutoff:
                 break
 
-            colored_image = ColorFactory.fade_image(self.image, start_point + (i * fade_speed), saturation)
+            if self.transparent:
+                colored_image = ColorFactory.fade_transparent_image(self.image, start_point + (i * fade_speed), saturation)
+            else:
+                colored_image = ColorFactory.fade_image(self.image, start_point + (i * fade_speed), saturation)
 
             self.matrix.SetImage(colored_image.convert('RGB'))
 

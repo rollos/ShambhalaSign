@@ -44,6 +44,17 @@ class ColorFactory:
         data[(data == orig_color).all(axis=-1)] = replacement_color
         return Image.fromarray(data, mode='RGB')
 
+    @staticmethod
+    def fade_transparent_image(img, hue_degree, saturation):
+        orig_color = (255, 255, 255, 255)
+        replacement_color = ColorFactory.hsv_to_rgb(hue_degree, saturation, 50)
+
+        replacement_color = replacement_color + (255,)
+        data = np.array(img)
+
+        data[(data == orig_color).all(axis=-1)] = replacement_color
+        return Image.fromarray(data, mode='RGBA')
+
     # Fade between tuple colors by a percent
     @staticmethod
     def fade_between_colors(color1, color2, percent):
